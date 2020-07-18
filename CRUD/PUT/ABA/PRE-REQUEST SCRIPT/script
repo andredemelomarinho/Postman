@@ -2,3 +2,10 @@ postman.clearGlobalVariable("timestamp");
 date = new Date();
 isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
 postman.setGlobalVariable('timestamp', isoDate);
+pm.variables.replaceIn();
+var name = pm.variables.replaceIn('{{$randomFirstName}}');
+var job =pm.variables.replaceIn('{{$randomJobType}}')
+postman.setGlobalVariable('name', name);
+postman.setGlobalVariable('job', job);
+pm.environment.set("name", name);
+pm.environment.set("RandomNumber", _.random(11));
