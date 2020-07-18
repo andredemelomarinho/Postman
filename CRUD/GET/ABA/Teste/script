@@ -1,0 +1,11 @@
+
+var id =pm.variables.get("id");
+pm.test("Status code is 200", function () {
+    pm.sendRequest('http://5e212b4f6867a0001416f152.mockapi.io/api/v1/users/'+id, function (err, res) {
+        pm.expect(err).to.not.be.ok;
+        pm.expect(res).to.have.property('code', 200);
+        pm.expect(res).to.have.property('status', 'OK');
+    });
+});
+
+
