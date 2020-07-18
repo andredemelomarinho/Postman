@@ -1,0 +1,3 @@
+postman.clearGlobalVariable("url");
+postman.clearGlobalVariable("timestamp");
+postman.setGlobalVariable('url','http://5e212b4f6867a0001416f152.mockapi.io/api/v1/');
