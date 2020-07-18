@@ -1,0 +1,25 @@
+// Load Postman BDD
+eval(globals.postmanBDD);
+var id =pm.variables.get("id");
+describe('Get customer info', () => {
+
+  it('should return a 200 response', () => {
+    response.should.have.status(200);
+  });
+
+  it('should set the Location header', () => {
+    response.should.have.header('Location');
+  });
+
+  it('should return a JSON response', () => {
+    response.should.be.json;
+  });
+
+  it('should return the correct customer', () => {
+    response.body.should.have.property('id', 1000);
+  });
+  it('should return the correct customer', () => {
+    response.body.should.have.property('id', id);
+  });
+
+});
