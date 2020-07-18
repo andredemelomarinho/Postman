@@ -1,0 +1,7 @@
+{
+"createdAt":"{{timestamp}}",
+"name":"{{name}}",
+"avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/enricocicconi/128.jpg",
+"job":"{{job}}",
+"cpf":"{{RandomNumber}}-1"
+}
