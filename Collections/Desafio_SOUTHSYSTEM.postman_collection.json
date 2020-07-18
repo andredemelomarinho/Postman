@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "0b86fb4b-e914-4c4c-81f4-52222eba0f4d",
+		"name": "Desafio SOUTHSYSTEM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST New User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6c640825-3614-47eb-8df6-f79034ba01a5",
+						"exec": [
+							"postman.clearGlobalVariable(\"timestamp\");\r",
+							"date = new Date();\r",
+							"isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();\r",
+							"postman.setGlobalVariable('timestamp', isoDate);\r",
+							"pm.variables.replaceIn();\r",
+							"var name = pm.variables.replaceIn('{{$randomFirstName}}');\r",
+							"var job =pm.variables.replaceIn('{{$randomJobType}}')\r",
+							"postman.setGlobalVariable('name', name);\r",
+							"postman.setGlobalVariable('job', job);\r",
+							"pm.environment.set(\"name\", name);\r",
+							"pm.environment.set(\"RandomNumber\", _.random(11));\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ad60bdd-98bd-4424-9ac6-26d98a8d36ed",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+							"   let jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"id\", jsonData.id);\r",
+							"    pm.environment.set(\"id\",jsonData.id);\r",
+							"     console.log(jsonData.id);\r",
+							"     \r",
+							"    \r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"createdAt\":\"{{timestamp}}\",\r\n\"name\":\"{{name}}\",\r\n\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/enricocicconi/128.jpg\",\r\n\"job\":\"{{job}}\",\r\n\"cpf\":\"{{RandomNumber}}-1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}users",
+					"host": [
+						"{{url}}users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET User by Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c5b08a91-3d06-49a1-9334-ee78e147f171",
+						"exec": [
+							"//postman.clearGlobalVariable(\"id\");\r",
+							"postman.clearGlobalVariable(\"url\");\r",
+							"postman.clearGlobalVariable(\"timestamp\");\r",
+							"postman.setGlobalVariable('url','http://5e212b4f6867a0001416f152.mockapi.io/api/v1/');\r",
+							"postman.setGlobalVariable('id', 81); //usar caso não tenho variável de ambiente\r",
+							" var url= pm.globals.get(\"url\");\r",
+							" var timestamp= pm.globals.get(\"timestamp\");\r",
+							"date = new Date();\r",
+							"isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();\r",
+							"postman.setGlobalVariable('timestamp', isoDate);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "541486b7-aa36-4586-9e85-becfca0bf831",
+						"exec": [
+							"var id =pm.variables.get(\"id\");\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.sendRequest('http://5e212b4f6867a0001416f152.mockapi.io/api/v1/users/'+id, function (err, res) {\r",
+							"        pm.expect(err).to.not.be.ok;\r",
+							"        pm.expect(res).to.have.property('code', 200);\r",
+							"        pm.expect(res).to.have.property('status', 'OK');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/users/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by ID using BDD",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e43ab45a-d1fd-4e60-8c49-67a8f415996b",
+						"exec": [
+							"postman.clearGlobalVariable(\"id\");\r",
+							"postman.clearGlobalVariable(\"url\");\r",
+							"postman.clearGlobalVariable(\"timestamp\");\r",
+							"postman.setGlobalVariable('url','http://5e212b4f6867a0001416f152.mockapi.io/api/v1/');\r",
+							"postman.setGlobalVariable('id', 81); //usar caso não tenho variável de ambiente\r",
+							" var url= pm.globals.get(\"url\");\r",
+							" var timestamp= pm.globals.get(\"timestamp\");\r",
+							"date = new Date();\r",
+							"isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();\r",
+							"postman.setGlobalVariable('timestamp', isoDate);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7b8b238d-896d-4b03-821c-5135072dbeb3",
+						"exec": [
+							"// Load Postman BDD\r",
+							"eval(globals.postmanBDD);\r",
+							"var id =pm.variables.get(\"id\");\r",
+							"describe('Get customer info', () => {\r",
+							"\r",
+							"  it('should return a 200 response', () => {\r",
+							"    response.should.have.status(200);\r",
+							"  });\r",
+							"\r",
+							"  it('should set the Location header', () => {\r",
+							"    response.should.have.header('Location');\r",
+							"  });\r",
+							"\r",
+							"  it('should return a JSON response', () => {\r",
+							"    response.should.be.json;\r",
+							"  });\r",
+							"\r",
+							"  it('should return the correct customer', () => {\r",
+							"    response.body.should.have.property('id', 1000);\r",
+							"  });\r",
+							"  it('should return the correct customer', () => {\r",
+							"    response.body.should.have.property('id', id);\r",
+							"  });\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT user by ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e14b198c-019f-4942-9642-55e149e529ab",
+						"exec": [
+							"postman.clearGlobalVariable(\"timestamp\");\r",
+							"date = new Date();\r",
+							"isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();\r",
+							"postman.setGlobalVariable('timestamp', isoDate);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a66352a-8139-4822-aa53-c8dc71b4ae66",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"createdAt\":\"{{timestamp}}\",\r\n\"name\":\"Miguel7\",\r\n\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/enricocicconi/128.jpg\",\"job\":\"Actor – ator\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user by ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f618dd7a-5a7b-4e22-b77a-df8c308ee961",
+						"exec": [
+							"//postman.clearGlobalVariable(\"id\");\r",
+							"postman.clearGlobalVariable(\"url\");\r",
+							"postman.clearGlobalVariable(\"timestamp\");\r",
+							"postman.setGlobalVariable('url','http://5e212b4f6867a0001416f152.mockapi.io/api/v1/');\r",
+							"//postman.setGlobalVariable('id', 81); usar caso não tenho variável de ambiente"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2cb6a1e0-aea4-4fab-a79b-d9ad49a230b6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
