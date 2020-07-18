@@ -1,0 +1,10 @@
+pm.test("Successful POST request", function () {
+    pm.expect(pm.response.code).to.be.oneOf([201,202]);
+   let jsonData = pm.response.json();
+    pm.globals.set("id", jsonData.id);
+    pm.environment.set("id",jsonData.id);
+     console.log(jsonData.id);
+     
+    
+
+});
